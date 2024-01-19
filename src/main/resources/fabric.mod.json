@@ -1,0 +1,31 @@
+{
+	"schemaVersion": 1,
+	"id": "lambda",
+	"version": "${version}",
+	"name": "Lambda",
+	"description": "Add various commands to your server",
+	"authors": [
+		"KGriffon"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/lambda",
+		"sources": "https://github.com/kgriff0n/lambda"
+	},
+	"license": "MIT",
+	"icon": "assets/lambda/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"io.github.kgriff0n.Lambda"
+		]
+	},
+	"mixins": [
+      "lambda.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.14.21",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	}
+}
