@@ -4,7 +4,7 @@
 <img align="right" width="100" height="100" src="img/logo.png">
 
 Lambda is a **server-side** mod that adds various commands.  
-Feel free to suggest other commands on [GitHub](https://github.com/kgriff0n/lambda) or Discord!
+Feel free to suggest other commands on [GitHub](https://github.com/kgriff0n/lambda) or [Discord](https://discord.gg/ZeHm57BEyt)!
 <br>
 
 ## Config
