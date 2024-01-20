@@ -10,7 +10,7 @@ Feel free to suggest other commands on [GitHub](https://github.com/kgriff0n/lamb
 ## Config
 
 ---
-You can find `lambda.properties` file in the config folder. This file allows you to change to text ouput of the commands.
+You can find `lambda.properties` file in the config folder. This file allows you to change the text ouput of the commands.
 This mod uses [fabric-permissions-api](https://github.com/lucko/fabric-permissions-api), so you can easily manage permissions with any compatible permission manager mod.
 
 ## Commands list
