@@ -14,7 +14,6 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 
@@ -40,7 +39,7 @@ public class InvseeCommand {
 
         /* First row */
         targetInventory.setSlot(0, new GuiElementBuilder(Items.PLAYER_HEAD)
-                .setSkullOwner(new GameProfile(target.getUuid(), target.getEntityName()), player.server)
+                .setSkullOwner(new GameProfile(target.getUuid(), target.getName().getString()), player.server)
                 .glow()
         );
         targetInventory.setSlot(1, Items.GRAY_STAINED_GLASS_PANE.getDefaultStack());
@@ -78,8 +77,8 @@ public class InvseeCommand {
         }
 
 
-        targetInventory.setTitle(Text.literal(String.format(Config.invseeTitle, target.getEntityName())));
-        player.playSound(SoundEvents.BLOCK_ENDER_CHEST_OPEN, SoundCategory.BLOCKS, 1, 1);
+        targetInventory.setTitle(Text.literal(String.format(Config.invseeTitle, target.getName().getString())));
+        player.playSound(SoundEvents.BLOCK_ENDER_CHEST_OPEN);
         targetInventory.open();
 
         return Command.SINGLE_SUCCESS;

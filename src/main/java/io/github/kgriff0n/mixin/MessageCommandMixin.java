@@ -21,7 +21,7 @@ public class MessageCommandMixin {
         if (targets.size() == 1) {
 
             String sourceName = source.getName();
-            String targetName = targets.iterator().next().getEntityName();
+            String targetName = targets.iterator().next().getName().getString();
 
             replyList.put(sourceName, targetName);
             replyList.put(targetName, sourceName);

@@ -34,7 +34,7 @@ public class FeedCommand {
         if (player == target) {
             player.sendMessage(Text.of(Config.feedSelf));
         } else {
-            player.sendMessage(Text.of(String.format(Config.feedOthers, target.getEntityName())));
+            player.sendMessage(Text.of(String.format(Config.feedOthers, target.getName())));
             target.sendMessage(Text.of(Config.feedSelf));
         }
         return Command.SINGLE_SUCCESS;

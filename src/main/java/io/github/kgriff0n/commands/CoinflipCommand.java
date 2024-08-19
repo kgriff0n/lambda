@@ -35,7 +35,7 @@ public class CoinflipCommand {
 
         for (ServerPlayerEntity target : targets) {
             if (target != player) {
-                target.sendMessage(Text.literal(String.format(Config.coinflipOthers, player.getEntityName(), side)));
+                target.sendMessage(Text.literal(String.format(Config.coinflipOthers, player.getName(), side)));
             }
         }
 

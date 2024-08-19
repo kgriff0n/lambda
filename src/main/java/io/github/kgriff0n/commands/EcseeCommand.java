@@ -11,7 +11,6 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 
@@ -39,8 +38,8 @@ public class EcseeCommand {
             targetEnderchest.setSlotRedirect(i, new Slot(target.getEnderChestInventory(), i, 0, 0));
         }
 
-        targetEnderchest.setTitle(Text.literal(String.format(Config.ecseeTitle, target.getEntityName())));
-        player.playSound(SoundEvents.BLOCK_ENDER_CHEST_OPEN, SoundCategory.BLOCKS, 1, 1);
+        targetEnderchest.setTitle(Text.literal(String.format(Config.ecseeTitle, target.getName().getString())));
+        player.playSound(SoundEvents.BLOCK_ENDER_CHEST_OPEN);
         targetEnderchest.open();
 
         return Command.SINGLE_SUCCESS;

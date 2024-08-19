@@ -5,8 +5,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.command.argument.ScoreHolderArgumentType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -37,10 +36,8 @@ public class HeadCommand {
 
     private static int execute(ServerCommandSource source, String target) {
         ServerPlayerEntity player = source.getPlayer();
-
-        ItemStack playerHead = new ItemStack(Items.PLAYER_HEAD);
-        playerHead.getOrCreateNbt().putString("SkullOwner", target);
-        player.giveItemStack(playerHead);
+        MinecraftServer server = source.getServer();
+        source.getServer().getCommandManager().executeWithPrefix(server.getCommandSource(), "give " + player.getName().getString() + " player_head[profile={name:\"" + target + "\"}] 1");
 
         return Command.SINGLE_SUCCESS;
     }

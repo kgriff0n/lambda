@@ -40,8 +40,8 @@ public class FlyCommand {
 
         if (target != player) {
             player.sendMessage(target.getAbilities().allowFlying
-                    ? Text.literal(String.format(Config.flyEnabledOthers, target.getEntityName()))
-                    : Text.literal(String.format(Config.flyDisabledOthers, target.getEntityName())));
+                    ? Text.literal(String.format(Config.flyEnabledOthers, target.getName()))
+                    : Text.literal(String.format(Config.flyDisabledOthers, target.getName())));
         }
 
         return Command.SINGLE_SUCCESS;

@@ -30,7 +30,7 @@ public class TopCommand {
              y--);
         //empty body
 
-        player.teleport(pos.getX() + 0.5, y + 1, pos.getZ() + 0.5);
+        player.teleport(pos.getX() + 0.5, y + 1, pos.getZ() + 0.5, false);
 
         return Command.SINGLE_SUCCESS;
     }

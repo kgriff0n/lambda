@@ -8,7 +8,6 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 
@@ -37,7 +36,7 @@ public class EnderChestCommand {
             enderChest.setSlotRedirect(i, new Slot(player.getEnderChestInventory(), i, 0, 0));
         }
         enderChest.setTitle(Text.translatable("container.enderchest"));
-        player.playSound(SoundEvents.BLOCK_ENDER_CHEST_OPEN, SoundCategory.BLOCKS, 1, 1);
+        player.playSound(SoundEvents.BLOCK_ENDER_CHEST_OPEN);
         enderChest.open();
 
         return Command.SINGLE_SUCCESS;

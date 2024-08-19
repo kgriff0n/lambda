@@ -35,7 +35,7 @@ public class HealCommand {
         if (player == target) {
             player.sendMessage(Text.of(Config.healSelf));
         } else {
-            player.sendMessage(Text.of(String.format(Config.healOthers, target.getEntityName())));
+            player.sendMessage(Text.of(String.format(Config.healOthers, target.getName())));
             target.sendMessage(Text.of(Config.healSelf));
         }
 
