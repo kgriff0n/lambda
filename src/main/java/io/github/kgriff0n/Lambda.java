@@ -10,7 +10,7 @@ public class Lambda implements ModInitializer {
 
     public static final Logger LOGGER = LoggerFactory.getLogger("lambda");
 
-	public static final String VERSION = "v1.1.0";
+	public static final String VERSION = "v1.2.0";
 
 	@Override
 	public void onInitialize() {
@@ -46,6 +46,6 @@ public class Lambda implements ModInitializer {
 		TopCommand.register();
 		TrashCommand.register();
 
-		LOGGER.info("Hello Fabric world!");
+		LOGGER.info("Lambda loaded!");
 	}
 }

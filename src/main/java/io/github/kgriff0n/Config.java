@@ -57,7 +57,7 @@ public class Config {
         try (Writer writer = new FileWriter(properties)) {
             writer.write("# Lambda configuration file\n\n");
             writer.write("# Don't edit the following line\n");
-            writer.write("version=v1.1.0\n\n");
+            writer.write("version=v1.2.0\n\n");
 
             writer.write("# Coinflip display format\n");
             writer.write("coinflip.self=You got %s\n");
@@ -92,9 +92,9 @@ public class Config {
     }
 
     public static void createConfigFile() {
-        File database = new File(properties);
+        File configFile = new File(properties);
         try {
-            database.createNewFile();
+            configFile.createNewFile();
         } catch (IOException e) {
             Lambda.LOGGER.error("Can't create file.");
         }
