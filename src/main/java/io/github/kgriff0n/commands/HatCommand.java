@@ -26,7 +26,7 @@ public class HatCommand {
         ItemStack mainHand = player.getMainHandStack();
         ItemStack helmet = player.getEquippedStack(EquipmentSlot.HEAD);
 
-        player.getInventory().armor.set(EquipmentSlot.HEAD.getEntitySlotId(), mainHand);
+        player.equipStack(EquipmentSlot.HEAD, mainHand);
         player.setStackInHand(Hand.MAIN_HAND, helmet);
 
         return Command.SINGLE_SUCCESS;
