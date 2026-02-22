@@ -8,6 +8,7 @@ import io.github.kgriff0n.Config;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.command.argument.EntityArgumentType;
+import net.minecraft.command.permission.PermissionLevel;
 import net.minecraft.item.Items;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
@@ -17,13 +18,15 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 
+import java.util.List;
+
 import static net.minecraft.server.command.CommandManager.literal;
 
 public class InvseeCommand {
     public static void register() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(literal("invsee")
-                    .requires(Permissions.require("lambda.admin.invsee", 4))
+                    .requires(Permissions.require("lambda.admin.invsee", PermissionLevel.GAMEMASTERS))
                     .executes(context -> execute(context.getSource(), context.getSource().getPlayerOrThrow()))
                     .then(CommandManager.argument("target", EntityArgumentType.player())
                             .executes(context -> execute(context.getSource(), EntityArgumentType.getPlayer(context, "target")))
@@ -39,7 +42,8 @@ public class InvseeCommand {
 
         /* First row */
         targetInventory.setSlot(0, new GuiElementBuilder(Items.PLAYER_HEAD)
-                .setSkullOwner(new GameProfile(target.getUuid(), target.getName().getString()), player.server)
+                .setProfile(target.getUuid())
+                .setName(target.getName())
                 .glow()
         );
         targetInventory.setSlot(1, Items.GRAY_STAINED_GLASS_PANE.getDefaultStack());

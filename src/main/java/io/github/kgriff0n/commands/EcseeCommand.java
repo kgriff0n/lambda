@@ -6,6 +6,7 @@ import io.github.kgriff0n.Config;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.command.argument.EntityArgumentType;
+import net.minecraft.command.permission.PermissionLevel;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.command.CommandManager;
@@ -20,7 +21,7 @@ public class EcseeCommand {
     public static void register() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(literal("ecsee")
-                    .requires(Permissions.require("lambda.admin.ecsee", 4))
+                    .requires(Permissions.require("lambda.admin.ecsee", PermissionLevel.GAMEMASTERS))
                     .executes(context -> execute(context.getSource(), context.getSource().getPlayerOrThrow()))
                     .then(CommandManager.argument("target", EntityArgumentType.player())
                             .executes(context -> execute(context.getSource(), EntityArgumentType.getPlayer(context, "target")))

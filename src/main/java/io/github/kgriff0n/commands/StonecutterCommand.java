@@ -3,6 +3,7 @@ package io.github.kgriff0n.commands;
 import com.mojang.brigadier.Command;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.minecraft.command.permission.PermissionLevel;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
@@ -17,7 +18,7 @@ public class StonecutterCommand {
     public static void register() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(literal("stonecutter")
-                    .requires(Permissions.require("lambda.util.stonecutter", 4))
+                    .requires(Permissions.require("lambda.util.stonecutter", PermissionLevel.GAMEMASTERS))
                     .executes(context -> execute(context.getSource())));
         });
     }
@@ -25,7 +26,7 @@ public class StonecutterCommand {
     private static int execute(ServerCommandSource source) {
         ServerPlayerEntity player = source.getPlayer();
 
-        player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inventory, playerEntity) -> new StonecutterScreenHandler(syncId, inventory, ScreenHandlerContext.create(player.getWorld(), player.getBlockPos())) {
+        player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inventory, playerEntity) -> new StonecutterScreenHandler(syncId, inventory, ScreenHandlerContext.create(player.getEntityWorld(), player.getBlockPos())) {
             @Override
             public boolean canUse(PlayerEntity player) {
                 return true;

@@ -5,6 +5,7 @@ import io.github.kgriff0n.Config;
 import io.github.kgriff0n.Lambda;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.minecraft.command.permission.PermissionLevel;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -17,14 +18,14 @@ public class LambdaCommand {
     public static void register() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(literal("lambda")
-                    .requires(Permissions.require("lambda.admin.info", 4))
+                    .requires(Permissions.require("lambda.admin.info", PermissionLevel.GAMEMASTERS))
                     .executes(context -> info(context.getSource()))
                     .then(literal("info")
-                            .requires(Permissions.require("lambda.admin.info", 4))
+                            .requires(Permissions.require("lambda.admin.info", PermissionLevel.GAMEMASTERS))
                             .executes(context -> info(context.getSource()))
                     )
                     .then(literal("reload")
-                            .requires(Permissions.require("lambda.admin.reload", 4))
+                            .requires(Permissions.require("lambda.admin.reload", PermissionLevel.GAMEMASTERS))
                             .executes(context -> reload(context.getSource()))
                     )
             );
