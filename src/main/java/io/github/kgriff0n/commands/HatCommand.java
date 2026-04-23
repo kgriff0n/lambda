@@ -3,14 +3,14 @@ package io.github.kgriff0n.commands;
 import com.mojang.brigadier.Command;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.minecraft.command.permission.PermissionLevel;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Hand;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.permissions.PermissionLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
 
-import static net.minecraft.server.command.CommandManager.literal;
+import static net.minecraft.commands.Commands.literal;
 
 public class HatCommand {
     public static void register() {
@@ -21,14 +21,14 @@ public class HatCommand {
         });
     }
 
-    private static int execute(ServerCommandSource source) {
-        ServerPlayerEntity player = source.getPlayer();
+    private static int execute(CommandSourceStack source) {
+        ServerPlayer player = source.getPlayer();
 
-        ItemStack mainHand = player.getMainHandStack();
-        ItemStack helmet = player.getEquippedStack(EquipmentSlot.HEAD);
+        ItemStack mainHand = player.getMainHandItem();
+        ItemStack helmet = player.getItemBySlot(EquipmentSlot.HEAD);
 
-        player.equipStack(EquipmentSlot.HEAD, mainHand);
-        player.setStackInHand(Hand.MAIN_HAND, helmet);
+        player.setItemSlot(EquipmentSlot.HEAD, mainHand);
+        player.setItemInHand(InteractionHand.MAIN_HAND, helmet);
 
         return Command.SINGLE_SUCCESS;
     }

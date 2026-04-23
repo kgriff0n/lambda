@@ -4,15 +4,15 @@ import com.mojang.brigadier.Command;
 import eu.pb4.sgui.api.gui.SimpleGui;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.minecraft.command.permission.PermissionLevel;
-import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.permissions.PermissionLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
 
-import static net.minecraft.server.command.CommandManager.literal;
+import static net.minecraft.commands.Commands.literal;
 
 public class EnderChestCommand {
     public static void register() {
@@ -28,16 +28,16 @@ public class EnderChestCommand {
         });
     }
 
-    private static int execute(ServerCommandSource source) {
-        ServerPlayerEntity player = source.getPlayer();
+    private static int execute(CommandSourceStack source) {
+        ServerPlayer player = source.getPlayer();
 
-        SimpleGui enderChest = new SimpleGui(ScreenHandlerType.GENERIC_9X3, player, false);
+        SimpleGui enderChest = new SimpleGui(MenuType.GENERIC_9x3, player, false);
 
         for (int i = 0; i < 27; i++) {
-            enderChest.setSlotRedirect(i, new Slot(player.getEnderChestInventory(), i, 0, 0));
+            enderChest.setSlot(i, new Slot(player.getEnderChestInventory(), i, 0, 0));
         }
-        enderChest.setTitle(Text.translatable("container.enderchest"));
-        player.playSound(SoundEvents.BLOCK_ENDER_CHEST_OPEN);
+        enderChest.setTitle(Component.translatable("container.enderchest"));
+        player.makeSound(SoundEvents.ENDER_CHEST_OPEN);
         enderChest.open();
 
         return Command.SINGLE_SUCCESS;

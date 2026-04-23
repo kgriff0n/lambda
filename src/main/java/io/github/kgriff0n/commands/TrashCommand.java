@@ -4,14 +4,14 @@ import com.mojang.brigadier.Command;
 import io.github.kgriff0n.Config;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.minecraft.command.permission.PermissionLevel;
-import net.minecraft.screen.GenericContainerScreenHandler;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.permissions.PermissionLevel;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.inventory.ChestMenu;
 
-import static net.minecraft.server.command.CommandManager.literal;
+import static net.minecraft.commands.Commands.literal;
 
 public class TrashCommand {
     public static void register() {
@@ -27,10 +27,10 @@ public class TrashCommand {
         });
     }
 
-    private static int execute(ServerCommandSource source) {
-        ServerPlayerEntity player = source.getPlayer();
+    private static int execute(CommandSourceStack source) {
+        ServerPlayer player = source.getPlayer();
 
-        player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inventory, playerEntity) -> GenericContainerScreenHandler.createGeneric9x1(syncId, inventory), Text.of(Config.trashTitle)));
+        player.openMenu(new SimpleMenuProvider((syncId, inventory, playerEntity) -> ChestMenu.oneRow(syncId, inventory), Component.nullToEmpty(Config.trashTitle)));
 
         return Command.SINGLE_SUCCESS;
     }

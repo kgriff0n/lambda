@@ -4,18 +4,17 @@ import com.mojang.brigadier.Command;
 import io.github.kgriff0n.Config;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.minecraft.command.argument.EntityArgumentType;
-import net.minecraft.command.permission.PermissionLevel;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
-
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.permissions.PermissionLevel;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
-import static net.minecraft.server.command.CommandManager.literal;
+import static net.minecraft.commands.Commands.literal;
 
 public class CoinflipCommand {
     public static void register() {
@@ -23,20 +22,20 @@ public class CoinflipCommand {
             dispatcher.register(literal("coinflip")
                     .requires(Permissions.require("lambda.misc.coinflip", PermissionLevel.GAMEMASTERS))
                     .executes(context -> execute(context.getSource(), new ArrayList<>()))
-                    .then(CommandManager.argument("targets", EntityArgumentType.players())
-                            .executes(context -> execute(context.getSource(), EntityArgumentType.getPlayers(context, "targets")))));
+                    .then(Commands.argument("targets", EntityArgument.players())
+                            .executes(context -> execute(context.getSource(), EntityArgument.getPlayers(context, "targets")))));
         });
     }
 
-    private static int execute(ServerCommandSource source, Collection<ServerPlayerEntity> targets) {
-        ServerPlayerEntity player = source.getPlayer();
+    private static int execute(CommandSourceStack source, Collection<ServerPlayer> targets) {
+        ServerPlayer player = source.getPlayer();
         String side = new Random().nextInt(2) == 0 ? "heads" : "tails";
 
-        player.sendMessage(Text.literal(String.format(Config.coinflipSelf, side)));
+        player.sendSystemMessage(Component.literal(String.format(Config.coinflipSelf, side)));
 
-        for (ServerPlayerEntity target : targets) {
+        for (ServerPlayer target : targets) {
             if (target != player) {
-                target.sendMessage(Text.literal(String.format(Config.coinflipOthers, player.getName(), side)));
+                target.sendSystemMessage(Component.literal(String.format(Config.coinflipOthers, player.getName(), side)));
             }
         }
 

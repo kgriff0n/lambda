@@ -3,16 +3,16 @@ package io.github.kgriff0n.commands;
 import com.mojang.brigadier.Command;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.minecraft.command.permission.PermissionLevel;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
-import net.minecraft.screen.StonecutterScreenHandler;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.permissions.PermissionLevel;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.StonecutterMenu;
 
-import static net.minecraft.server.command.CommandManager.literal;
+import static net.minecraft.commands.Commands.literal;
 
 public class SmithingTableCommand {
     public static void register() {
@@ -23,15 +23,15 @@ public class SmithingTableCommand {
         });
     }
 
-    private static int execute(ServerCommandSource source) {
-        ServerPlayerEntity player = source.getPlayer();
+    private static int execute(CommandSourceStack source) {
+        ServerPlayer player = source.getPlayer();
 
-        player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inventory, playerEntity) -> new StonecutterScreenHandler(syncId, inventory, ScreenHandlerContext.create(player.getEntityWorld(), player.getBlockPos())) {
+        player.openMenu(new SimpleMenuProvider((syncId, inventory, playerEntity) -> new StonecutterMenu(syncId, inventory, ContainerLevelAccess.create(player.level(), player.blockPosition())) {
             @Override
-            public boolean canUse(PlayerEntity player) {
+            public boolean stillValid(Player player) {
                 return true;
             }
-        }, Text.translatable("container.upgrade")));
+        }, Component.translatable("container.upgrade")));
 
         return Command.SINGLE_SUCCESS;
     }

@@ -4,45 +4,45 @@ import com.mojang.brigadier.Command;
 import io.github.kgriff0n.Config;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.minecraft.command.argument.EntityArgumentType;
-import net.minecraft.command.permission.PermissionLevel;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.permissions.PermissionLevel;
 
-import static net.minecraft.server.command.CommandManager.literal;
+import static net.minecraft.commands.Commands.literal;
 
 public class FlyCommand {
     public static void register() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(literal("fly")
                     .requires(Permissions.require("lambda.admin.fly", PermissionLevel.GAMEMASTERS))
-                    .executes(context -> execute(context.getSource(), context.getSource().getPlayerOrThrow()))
-                    .then(CommandManager.argument("target", EntityArgumentType.player())
-                            .executes(context -> execute(context.getSource(), EntityArgumentType.getPlayer(context, "target")))
+                    .executes(context -> execute(context.getSource(), context.getSource().getPlayerOrException()))
+                    .then(Commands.argument("target", EntityArgument.player())
+                            .executes(context -> execute(context.getSource(), EntityArgument.getPlayer(context, "target")))
                     )
             );
         });
     }
 
-    private static int execute(ServerCommandSource source, ServerPlayerEntity target) {
-        ServerPlayerEntity player = source.getPlayer();
+    private static int execute(CommandSourceStack source, ServerPlayer target) {
+        ServerPlayer player = source.getPlayer();
 
-        if (target.getAbilities().allowFlying) {
-            target.getAbilities().allowFlying = false;
+        if (target.getAbilities().mayfly) {
+            target.getAbilities().mayfly = false;
             target.getAbilities().flying = false;
-            target.sendMessage(Text.literal(Config.flyDisabledSelf));
+            target.sendSystemMessage(Component.literal(Config.flyDisabledSelf));
         } else {
-            target.getAbilities().allowFlying = true;
-            target.sendMessage(Text.literal(Config.flyEnabledSelf));
+            target.getAbilities().mayfly = true;
+            target.sendSystemMessage(Component.literal(Config.flyEnabledSelf));
         }
-        target.sendAbilitiesUpdate();
+        target.onUpdateAbilities();
 
         if (target != player) {
-            player.sendMessage(target.getAbilities().allowFlying
-                    ? Text.literal(String.format(Config.flyEnabledOthers, target.getName()))
-                    : Text.literal(String.format(Config.flyDisabledOthers, target.getName())));
+            player.sendSystemMessage(target.getAbilities().mayfly
+                    ? Component.literal(String.format(Config.flyEnabledOthers, target.getName()))
+                    : Component.literal(String.format(Config.flyDisabledOthers, target.getName())));
         }
 
         return Command.SINGLE_SUCCESS;

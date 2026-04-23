@@ -3,16 +3,16 @@ package io.github.kgriff0n.commands;
 import com.mojang.brigadier.Command;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.minecraft.command.permission.PermissionLevel;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.screen.CartographyTableScreenHandler;
-import net.minecraft.screen.ScreenHandlerContext;
-import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.permissions.PermissionLevel;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.CartographyTableMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 
-import static net.minecraft.server.command.CommandManager.literal;
+import static net.minecraft.commands.Commands.literal;
 
 public class CartographyTableCommand {
     public static void register() {
@@ -23,15 +23,15 @@ public class CartographyTableCommand {
         });
     }
 
-    private static int execute(ServerCommandSource source) {
-        ServerPlayerEntity player = source.getPlayer();
+    private static int execute(CommandSourceStack source) {
+        ServerPlayer player = source.getPlayer();
 
-        player.openHandledScreen(new SimpleNamedScreenHandlerFactory((syncId, inventory, playerEntity) -> new CartographyTableScreenHandler(syncId, inventory, ScreenHandlerContext.create(player.getEntityWorld(), player.getBlockPos())) {
+        player.openMenu(new SimpleMenuProvider((syncId, inventory, playerEntity) -> new CartographyTableMenu(syncId, inventory, ContainerLevelAccess.create(player.level(), player.blockPosition())) {
             @Override
-            public boolean canUse(PlayerEntity player) {
+            public boolean stillValid(Player player) {
                 return true;
             }
-        }, Text.translatable("container.cartography_table")));
+        }, Component.translatable("container.cartography_table")));
 
         return Command.SINGLE_SUCCESS;
     }
