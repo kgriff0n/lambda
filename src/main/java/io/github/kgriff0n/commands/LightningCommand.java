@@ -9,7 +9,7 @@ import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.permissions.PermissionLevel;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LightningBolt;
 import java.util.Collection;
 
@@ -29,7 +29,7 @@ public class LightningCommand {
 
         for (ServerPlayer target : targets) {
             ServerLevel world = target.level();
-            LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, world);
+            LightningBolt lightning = new LightningBolt(EntityTypes.LIGHTNING_BOLT, world);
             lightning.setPosRaw(target.getX(), target.getY(), target.getZ());
             world.addFreshEntity(lightning);
         }

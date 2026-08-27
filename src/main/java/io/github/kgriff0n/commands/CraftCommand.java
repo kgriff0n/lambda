@@ -11,6 +11,7 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.CraftingMenu;
+import org.jspecify.annotations.NonNull;
 
 import static net.minecraft.commands.Commands.literal;
 
@@ -28,7 +29,7 @@ public class CraftCommand {
 
         player.openMenu(new SimpleMenuProvider((syncId, inventory, playerEntity) -> new CraftingMenu(syncId, inventory, ContainerLevelAccess.create(player.level(), player.blockPosition())) {
             @Override
-            public boolean stillValid(Player player) {
+            public boolean stillValid(@NonNull Player player) {
                 return true;
             }
         }, Component.translatable("container.crafting")));

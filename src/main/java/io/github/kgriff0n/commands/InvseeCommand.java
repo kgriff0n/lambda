@@ -45,16 +45,16 @@ public class InvseeCommand {
                 .setName(target.getName())
                 .glow()
         );
-        targetInventory.setSlot(1, Items.GRAY_STAINED_GLASS_PANE.getDefaultInstance());
+        targetInventory.setSlot(1, Items.STAINED_GLASS_PANE.gray().getDefaultInstance());
         // Armor
         for (int i = 0; i < 4; i++) {
             targetInventory.setSlot(i + 2, new Slot(target.getInventory(), 39 - i, 0, 0));
         }
 
-        targetInventory.setSlot(6, Items.GRAY_STAINED_GLASS_PANE.getDefaultInstance());
+        targetInventory.setSlot(6, Items.STAINED_GLASS_PANE.gray().getDefaultInstance());
         // Offhand
         targetInventory.setSlot(7, new Slot(target.getInventory(), 40, 0, 0));
-        targetInventory.setSlot(8, Items.GRAY_STAINED_GLASS_PANE.getDefaultInstance());
+        targetInventory.setSlot(8, Items.STAINED_GLASS_PANE.gray().getDefaultInstance());
 
         /* Second row */
         //Hotbar
@@ -64,7 +64,7 @@ public class InvseeCommand {
 
         /* Third row */
         for (int i = 0; i < 9; i++) {
-            targetInventory.setSlot(i + 18, Items.GRAY_STAINED_GLASS_PANE.getDefaultInstance());
+            targetInventory.setSlot(i + 18, Items.STAINED_GLASS_PANE.gray().getDefaultInstance());
         }
 
         /* Others rows */

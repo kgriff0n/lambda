@@ -11,6 +11,7 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AnvilMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import org.jspecify.annotations.NonNull;
 
 import static net.minecraft.commands.Commands.literal;
 
@@ -28,7 +29,7 @@ public class AnvilCommand {
 
         player.openMenu(new SimpleMenuProvider((syncId, inventory, playerEntity) -> new AnvilMenu(syncId, inventory, ContainerLevelAccess.create(player.level(), player.blockPosition())) {
             @Override
-            public boolean stillValid(Player player) {
+            public boolean stillValid(@NonNull Player player) {
                 return true;
             }
         }, Component.translatable("container.repair")));
