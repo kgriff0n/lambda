@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.permissions.PermissionLevel;
+import net.minecraft.tags.BlockTags;
 
 import static net.minecraft.commands.Commands.literal;
 
@@ -31,7 +32,7 @@ public class TopCommand {
              y--);
         //empty body
 
-        player.randomTeleport(pos.getX() + 0.5, y + 1, pos.getZ() + 0.5, false);
+        player.randomTeleport(pos.getX() + 0.5, y + 1, pos.getZ() + 0.5, false, _ -> false);
 
         return Command.SINGLE_SUCCESS;
     }
